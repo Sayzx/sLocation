@@ -67,7 +67,7 @@ CreateThread(function()
         local distance = GetDistanceBetweenCoords(pos, dest, true)
 
         if distance > 20 then
-            interval = 850-
+            interval = 850
         else 
             interval = 1
            
