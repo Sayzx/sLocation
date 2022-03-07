@@ -57,15 +57,17 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+    local interval = 1
     while true do
-        Citizen.Wait(1)
-        local interval = 1
+
+        Citizen.Wait(interval)
+
         local pos = GetEntityCoords(PlayerPedId())
         local dest = vector3(165.02, -1007.42, 29.42)
         local distance = GetDistanceBetweenCoords(pos, dest, true)
 
         if distance > 20 then
-            interval = 200
+            interval = 850-
         else 
             interval = 1
            
