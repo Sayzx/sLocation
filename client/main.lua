@@ -1,10 +1,5 @@
 ESX = nil
-
-------------------------------------
--- sLocation ( Help by L4 )         
--- Crédit By Say                    
-------------------------------------
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    VERSION = GetResourceMetadata(GetCurrentResourceName(), 'version', 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                                         VERSION = GetResourceMetadata(GetCurrentResourceName(), 'version', 0)
 local price = 150  
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     print(
 
@@ -60,7 +55,7 @@ CreateThread(function()
     local interval = 1
     while true do
 
-        Citizen.Wait(interval)
+        Wait(interval)
 
         local pos = GetEntityCoords(PlayerPedId())
         local dest = vector3(165.02, -1007.42, 29.42)
@@ -89,11 +84,11 @@ end)
 
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
     while ESX == nil do
         TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Citizen.Wait(0) 
+        Wait(0) 
     end
 
     ESX.PlayerData = ESX.GetPlayerData()
@@ -117,15 +112,8 @@ function CreateLocVehicles(locvehicles)
     ESX.Game.SpawnVehicle(locvehicles, Config.Pos.VehicleSpawn.spawn, Config.Pos.VehicleSpawn.heading, function(vehicle) -- Faire Spawn le véhicle avec coords et heading ( Rotation ) config dans le Shared/main.lua
         SetVehicleNumberPlateText(vehicle, "sLocation")
         SetPedIntoVehicle(GetPlayerPed(-1), vehicle, -1) -- Mettre le Joueur dans le véhicle
-        
-        
     end)
 end
-
-RegisterCommand("open", function()
-    OpenLocationMenu()
-end)
-
 
 function OpenLocationMenu() -- Function pour Ouvrir le Menu de Location
     if locmenu then
@@ -172,16 +160,15 @@ function OpenLocationMenu() -- Function pour Ouvrir le Menu de Location
                         end
                     })
                 end)
-                
             end
         end)
     end
 end
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do 
-        Citizen.Wait(1)
+        Wait(1)
         local interval = 1
         local pos = GetEntityCoords(PlayerPedId())
         local dest = vector3(165.02, -1007.42, 29.42)
