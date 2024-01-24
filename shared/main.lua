@@ -7,6 +7,7 @@ Config = {
             heading = 199.0
         }
     }
+    Price = 1000, -- Prix de la location
 }
 
 ConfigVehicles = {

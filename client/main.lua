@@ -1,21 +1,7 @@
-ESX = nil
-                                                                                                                                                                                                                                                                                                                                                                                                                                         VERSION = GetResourceMetadata(GetCurrentResourceName(), 'version', 0)
-local price = 150  
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    print(
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "^0[^4Author^0]^7 :^0 ^0Say^7\n" ..
+ESX = exports['es_extended']:getSharedObject() -- Récupère ESX                                                                                                                                                                                                                                                                                                                                                                                                                                                                               print(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "^0[^4Author^0]^7 :^0 ^0Say^7\n" ..
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         "^0[^2Script^0]^7 :^0 ^5sLocation | Voiture^7\n" ..
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ("^0[^3Version^0]^7 :^0 ^0%s^7\n"):format(VERSION) ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "^0======================================================================^7"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    )
 
-CreateThread(function()
-	while ESX == nil do
-		TriggerEvent(Config.Init['ESX'], function(obj) ESX = obj end)
-		Wait(0)
-	end
-
-    ESX.PlayerData = ESX.GetPlayerData()
-end)
 
 local locmenu = false 
 local slocationmenu = RageUI.CreateMenu(Config.Text["NameMenu1"], Config.Text["NameMenu1"]) -- Création du Menu
@@ -52,11 +38,10 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+    ESX.PlayerData = ESX.GetPlayerData()
     local interval = 1
     while true do
-
         Wait(interval)
-
         local pos = GetEntityCoords(PlayerPedId())
         local dest = vector3(165.02, -1007.42, 29.42)
         local distance = GetDistanceBetweenCoords(pos, dest, true)
@@ -85,11 +70,19 @@ end)
 
 
 CreateThread(function()
+    for k,v in pairs(Config.Pos)
+        local blip = AddBlipForCoord(v.Location.x, v.Location.y, v.Location.z) -- Création du blip
+        SetBlipSprite (blip, 56) -- Model du blip
+        SetBlipDisplay(blip, 4)
+        SetBlipScale  (blip, 0.65) -- Taille du blip
+        SetBlipColour (blip, 2) -- Couleur du blip
+        SetBlipAsShortRange(blip, true)
 
-    while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Wait(0) 
+        BeginTextCommandSetBlipName('STRING')
+        AddTextComponentSubstringPlayerName('sLocation') -- Nom du blip
+        EndTextCommandSetBlipName(blip)
     end
+    
 
     ESX.PlayerData = ESX.GetPlayerData()
 
@@ -102,6 +95,8 @@ CreateThread(function()
                 if IsControlJustPressed(0, 38) then 
                     OpenLocationMenu()
                 end 
+            elseif #(myCoords-Config.Pos.Location) < 5.0 then
+                RageUI.Visible(slocationmenu, false)
             end
         end
         Wait(1)
@@ -165,44 +160,4 @@ function OpenLocationMenu() -- Function pour Ouvrir le Menu de Location
     end
 end
 
-
-CreateThread(function()
-    while true do 
-        Wait(1)
-        local interval = 1
-        local pos = GetEntityCoords(PlayerPedId())
-        local dest = vector3(165.02, -1007.42, 29.42)
-        local distance = GetDistanceBetweenCoords(pos, dest, true)
-
-        if distance > 2 then 
-            RageUI.CloseAll()
-        else 
-            interval = 1
-        end
-    end
-end)
-
-
-
-
-
-
-
-
----- Blips
-
-
-Citizen.CreateThread(function()
-
-    local blip = AddBlipForCoord(165.43, -1006.93, 29.42) -- Coordonnés du Blips
-    SetBlipSprite (blip, 56) -- Model du blip
-    SetBlipDisplay(blip, 4)
-    SetBlipScale  (blip, 0.65) -- Taille du blip
-    SetBlipColour (blip, 2) -- Couleur du blip
-    SetBlipAsShortRange(blip, true)
-
-    BeginTextCommandSetBlipName('STRING')
-    AddTextComponentSubstringPlayerName('sLocation') -- Nom du blip
-    EndTextCommandSetBlipName(blip)
-end)
 
